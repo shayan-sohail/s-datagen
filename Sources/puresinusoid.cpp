@@ -1,4 +1,4 @@
-#include "puresinusoid.h"
+#include "Headers/puresinusoid.h"
 
 PureSinusoid::PureSinusoid(QWidget *parent) : QWidget(parent)
 {
@@ -121,7 +121,7 @@ void PureSinusoid::on_Generate_Clicked()
     SaveAsDialog.setNameFilter(tr("Formats (*.csv *.bin)"));
     SaveAsDialog.setFixedSize(500, 500);
 
-    for (int i = 0; i < numberOfSamples; i++)
+    for (unsigned i = 0; i < numberOfSamples; i++)
     {
         waveform[i] = Amplitude*sin(2*PI*F*(i/FS));
         series->append(i, waveform[i]);
@@ -137,7 +137,7 @@ void PureSinusoid::on_Generate_Clicked()
         if (!file)
             qDebug() << "Cannot open " << filename;
 
-        for (int i = 0; i < numberOfSamples; i++)
+        for (unsigned i = 0; i < numberOfSamples; i++)
         {
             std::string temp = std::to_string(waveform[i]) + "\n";
             file.write(temp.data(), temp.length());
