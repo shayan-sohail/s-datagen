@@ -30,7 +30,8 @@ PureSinusoid::PureSinusoid(QWidget *parent) : QWidget(parent)
     vlo_MainScreen = new QVBoxLayout;
 
     this->setFixedSize(450, 200);
-    this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
+    this->move(screen()->geometry().center() - frameGeometry().center());
+//    this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
     this->setWindowTitle("Pure Sinusoid");
 
     /*Setting Minimum Values for Labels*/
@@ -115,7 +116,7 @@ void PureSinusoid::on_Generate_Clicked()
     unsigned numberOfSamples = Duration*FS;
 
     std::vector<float> waveform(numberOfSamples);
-    QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
+    QLineSeries *series = new QLineSeries();
     QFileDialog SaveAsDialog(this);
     SaveAsDialog.setFileMode(QFileDialog::Directory);
     SaveAsDialog.setNameFilter(tr("Formats (*.csv *.bin)"));
@@ -147,7 +148,7 @@ void PureSinusoid::on_Generate_Clicked()
 
     if (this->chb_Plot->isChecked())
     {
-        QtCharts::QChart *chart = new QtCharts::QChart();
+        QChart *chart = new QChart();
         chart->legend()->hide();
         chart->addSeries(series);
         chart->createDefaultAxes();
@@ -155,13 +156,14 @@ void PureSinusoid::on_Generate_Clicked()
         chart->axisX()->setTitleText("Samples");
         chart->axisY()->setTitleText("Amplitude");
 
-        QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
-        chartView->setRubberBand(QtCharts::QChartView::HorizontalRubberBand);
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRubberBand(QChartView::HorizontalRubberBand);
         chartView->setRenderHint(QPainter::Antialiasing);
 
         QMainWindow *window = new QMainWindow;
         window->setCentralWidget(chartView);
-        window->move(QApplication::desktop()->screen()->rect().center() - window->rect().center());
+        window->move(screen()->geometry().center() - window->rect().center());
+//        window->move(QApplication::desktop()->screen()->rect().center() - window->rect().center());
         window->resize(600, 450);
         window->show();
     }

@@ -16,7 +16,8 @@ void Home:: setComboBox()
 Home::Home(QWidget *parent) : QWidget(parent)
 {
     this->setFixedSize(400, 150);
-    this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
+    this->move(screen()->geometry().center() - frameGeometry().center());
+//    this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
     this->setWindowTitle("Synthetic Data Generator");
 
     l_InputType = new QLabel("Input Type");

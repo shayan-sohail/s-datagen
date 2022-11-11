@@ -2,7 +2,7 @@
 #define GUICOMPONENTS_H
 
 #include <QMainWindow>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QLabel>
 #include <QPushButton>
 #include <QComboBox>

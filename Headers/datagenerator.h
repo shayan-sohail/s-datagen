@@ -1,9 +1,9 @@
 #ifndef DATAGENERATOR_H
 #define DATAGENERATOR_H
 
+#include "qcombobox.h"
 #include <QMainWindow>
 #include <QObject>
-#include "guicomponents.h"
 
 namespace Ui {
 class sdr;

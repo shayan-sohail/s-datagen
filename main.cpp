@@ -1,8 +1,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <QApplication>
-#include "guicomponents.h"
-#include "home.h"
+#include "Headers/home.h"
 
 
 
