@@ -19,6 +19,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
+#include <QtCharts/QValueAxis>
 #include <QFileDialog>
 #include <iostream>
 #include <fstream>

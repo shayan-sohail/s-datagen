@@ -1,4 +1,6 @@
 #include "Headers/home.h"
+#include "Headers/puresinusoid.h"
+
 
 void Home:: setComboBox()
 {
@@ -17,7 +19,6 @@ Home::Home(QWidget *parent) : QWidget(parent)
 {
     this->setFixedSize(400, 150);
     this->move(screen()->geometry().center() - frameGeometry().center());
-//    this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
     this->setWindowTitle("Synthetic Data Generator");
 
     l_InputType = new QLabel("Input Type");
@@ -43,12 +44,12 @@ Home::Home(QWidget *parent) : QWidget(parent)
 
     this->setLayout(vlo_MainScreen);
 
-    connect(pb_Select, SIGNAL(pressed()), this, SLOT(on_Select_Clicked()));
-    connect(pb_Exit, SIGNAL(pressed()), this, SLOT(on_Exit_Clicked()));
+    connect(pb_Select, SIGNAL(pressed()), this, SLOT(onSelect_Clicked()));
+    connect(pb_Exit, SIGNAL(pressed()), this, SLOT(onExit_Clicked()));
 
 }
 
-void Home::on_Select_Clicked()
+void Home::onSelect_Clicked()
 {
     if (this->cb_InputType->currentIndex() == 0)
     {
@@ -59,7 +60,7 @@ void Home::on_Select_Clicked()
         this->hide();
     }
 }
-void Home::on_Exit_Clicked()
+void Home::onExit_Clicked()
 {
     this->close();
 }

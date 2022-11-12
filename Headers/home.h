@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QWidget>
 #include "guicomponents.h"
-#include "puresinusoid.h"
 
 class Home : public QWidget
 {
@@ -26,8 +25,8 @@ public:
 signals:
 
 public slots:
-    void on_Select_Clicked();
-    void on_Exit_Clicked();
+    void onSelect_Clicked();
+    void onExit_Clicked();
 };
 
 #endif // HOME_H
