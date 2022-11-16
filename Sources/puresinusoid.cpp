@@ -116,7 +116,7 @@ void PureSinusoid::on_Generate_Clicked()
     unsigned numberOfSamples = Duration*FS;
 
     std::vector<float> waveform(numberOfSamples);
-    QLineSeries series;
+    series = new QLineSeries();
     QFileDialog SaveAsDialog(this);
     SaveAsDialog.setFileMode(QFileDialog::Directory);
     SaveAsDialog.setNameFilter(tr("Formats (*.csv *.bin)"));
@@ -125,7 +125,13 @@ void PureSinusoid::on_Generate_Clicked()
     for (unsigned i = 0; i < numberOfSamples; i++)
     {
         waveform[i] = Amplitude*sin(2*PI*F*(i/FS));
-        series.append(i, waveform[i]);
+        series->append(i, waveform[i]);
+    }
+
+    for (unsigned i = 0; i < numberOfSamples; i++)
+    {
+        waveform[i] = Amplitude*sin(2*PI*F*(i/FS));
+        series->append(i, waveform[i]);
     }
 
     if (this->chb_SaveToFile->isChecked())
@@ -168,7 +174,7 @@ void PureSinusoid::on_Generate_Clicked()
     {
         QChart *chart = new QChart();
         chart->legend()->hide();
-        chart->addSeries(&series);
+        chart->addSeries(series);
         chart->setTitle("Pure Sinusoid");
 
         QValueAxis *axisX = new QValueAxis;
@@ -180,8 +186,8 @@ void PureSinusoid::on_Generate_Clicked()
         chart->addAxis(axisX, Qt::AlignBottom);
         chart->addAxis(axisY, Qt::AlignLeft);
 
-        series.attachAxis(axisX);
-        series.attachAxis(axisY);
+        series->attachAxis(axisX);
+        series->attachAxis(axisY);
 
 
         QChartView *chartView = new QChartView(chart);

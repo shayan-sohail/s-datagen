@@ -38,6 +38,7 @@ public:
     QVBoxLayout *vlo_MainScreen;
 
 private:
+    QLineSeries *series;
     void closeEvent(QCloseEvent *bar);
 signals:
     void Want2Close();
