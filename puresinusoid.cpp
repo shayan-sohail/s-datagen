@@ -1,4 +1,5 @@
-#include "Headers/puresinusoid.h"
+#include "puresinusoid.h"
+#include "utils.h"
 
 PureSinusoid::PureSinusoid(QWidget *parent) : QWidget(parent)
 {
@@ -116,7 +117,7 @@ void PureSinusoid::on_Generate_Clicked()
     unsigned numberOfSamples = Duration*FS;
 
     std::vector<float> waveform(numberOfSamples);
-    series = new QLineSeries();
+
     QFileDialog SaveAsDialog(this);
     SaveAsDialog.setFileMode(QFileDialog::Directory);
     SaveAsDialog.setNameFilter(tr("Formats (*.csv *.bin)"));
@@ -125,80 +126,17 @@ void PureSinusoid::on_Generate_Clicked()
     for (unsigned i = 0; i < numberOfSamples; i++)
     {
         waveform[i] = Amplitude*sin(2*PI*F*(i/FS));
-        series->append(i, waveform[i]);
-    }
-
-    for (unsigned i = 0; i < numberOfSamples; i++)
-    {
-        waveform[i] = Amplitude*sin(2*PI*F*(i/FS));
-        series->append(i, waveform[i]);
     }
 
     if (this->chb_SaveToFile->isChecked())
     {
         QString filename= SaveAsDialog.getSaveFileName(this,"Save File", QDir::homePath(),tr("Binary file (*.bin);;CSV (*.csv)"));
-        if (filename.contains(".bin"))
-        {
-            std::ofstream file((filename).toStdString().c_str(), std::ios::out | std::ios::binary);
-            if (!file) qDebug() << "Cannot open " << filename;
-
-            file.write((char *)waveform.data(), numberOfSamples* sizeof(float));
-            file.close();
-        }
-        else if (filename.contains(".csv"))
-        {
-            std::ofstream file((filename).toStdString().c_str(), std::ios::out);
-            if (!file) qDebug() << "Cannot open " << filename;
-
-            for (unsigned i = 0; i < numberOfSamples; i++)
-            {
-                std::string temp = std::to_string(waveform[i]) + "\n";
-                file.write(temp.data(), temp.length());
-            }
-            file.close();
-        }
-        else
-        {
-            if (filename.isEmpty())
-            {
-                std::cerr << "Filename is Empty\n";
-            }
-            else
-            {
-                qDebug() <<"Invalid File name\n";
-            }
-        }
+        saveToFile(filename, waveform.data(), numberOfSamples);
     }
 
     if (this->chb_Plot->isChecked())
     {
-        QChart *chart = new QChart();
-        chart->legend()->hide();
-        chart->addSeries(series);
-        chart->setTitle("Pure Sinusoid");
-
-        QValueAxis *axisX = new QValueAxis;
-        QValueAxis *axisY = new QValueAxis;
-
-        axisX->setTitleText("Samples");
-        axisY->setTitleText("Amplitude");
-
-        chart->addAxis(axisX, Qt::AlignBottom);
-        chart->addAxis(axisY, Qt::AlignLeft);
-
-        series->attachAxis(axisX);
-        series->attachAxis(axisY);
-
-
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRubberBand(QChartView::HorizontalRubberBand);
-        chartView->setRenderHint(QPainter::Antialiasing);
-
-        QMainWindow *window = new QMainWindow;
-        window->setCentralWidget(chartView);
-        window->move(screen()->geometry().center() - window->rect().center());
-        window->resize(600, 450);
-        window->show();
+        plotChart(waveform.data(), numberOfSamples, screen()->geometry().center());
     }
 }
 

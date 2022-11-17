@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include "guicomponents.h"
+
 class PureSinusoid : public QWidget
 {
     Q_OBJECT
@@ -38,7 +39,6 @@ public:
     QVBoxLayout *vlo_MainScreen;
 
 private:
-    QLineSeries *series;
     void closeEvent(QCloseEvent *bar);
 signals:
     void Want2Close();

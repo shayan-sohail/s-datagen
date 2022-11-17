@@ -1,5 +1,6 @@
-#include "Headers/home.h"
-#include "Headers/puresinusoid.h"
+#include "home.h"
+#include "puresinusoid.h"
+#include "utils.h"
 
 
 void Home:: setComboBox()
@@ -51,7 +52,15 @@ Home::Home(QWidget *parent) : QWidget(parent)
 
 void Home::onSelect_Clicked()
 {
-    if (this->cb_InputType->currentIndex() == 0)
+    if (this->cb_InputType->currentIndex() == 0) //Pure Sinusoid
+    {
+        PureSinusoid *pureSin = new PureSinusoid();
+        connect(pureSin,&PureSinusoid::Want2Close,this,&QWidget::show);
+        connect(pureSin,&PureSinusoid::destroyed,this,&QWidget::show);
+        pureSin->show();
+        this->hide();
+    }
+    else if (this->cb_InputType->currentIndex() == 1) //Pure Sinusoid
     {
         PureSinusoid *pureSin = new PureSinusoid();
         connect(pureSin,&PureSinusoid::Want2Close,this,&QWidget::show);
